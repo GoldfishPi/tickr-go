@@ -14,7 +14,6 @@ const Login = () => {
                         <Logo />
                     </View>
                     <View>
-                        <Text category="h1"style={styles.title}>{ messages.signIn }</Text>
                         <Input placeholder={ messages.email } textContentType="emailAddress" />
                         <Input placeholder={ messages.password } textContentType="password" secureTextEntry={true} />
                         <Button >{ messages.signIn }</Button>
