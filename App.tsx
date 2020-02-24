@@ -33,7 +33,7 @@ export default function App() {
     if(!isLoadingComplete)
         return null
     return (
-        <ApplicationProvider mapping={mapping} theme={light}>
+        <ApplicationProvider mapping={mapping} theme={dark}>
         <View style={styles.container}>
             <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
                 <Stack.Navigator>

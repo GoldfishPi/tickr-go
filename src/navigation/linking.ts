@@ -10,6 +10,7 @@ export default function(containerRef:any) {
         path: 'root',
         screens: {
           Login: 'login',
+          Alerts: 'alerts',
         },
       },
     },

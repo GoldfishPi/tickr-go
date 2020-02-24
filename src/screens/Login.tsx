@@ -31,7 +31,8 @@ const Logo = () => {
         );
 }
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
+    navigation.push('Alerts');
 
     const isTablet = useMediaQuery({
         maxWidth:11270

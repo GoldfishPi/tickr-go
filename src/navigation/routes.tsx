@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/Login";
 import { View, StyleSheet } from "react-native";
 import {Platform} from "react-native";
+import { AlertsScreen } from '../screens/Alerts';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,10 @@ export const Routes = () => {
                 <Stack.Screen 
                     name="Login"
                     component={LoginScreen}
+                />
+                <Stack.Screen 
+                    name="Alerts"
+                    component={AlertsScreen}
                 />
             </Stack.Navigator>
         </View>
