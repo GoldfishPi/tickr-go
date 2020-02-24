@@ -9,7 +9,11 @@ export const api = axios.create({
 });
 
 
-export const authUser = async (username:string, password_str:string) => {
+export const authUser = async (
+    username:string, 
+    password_str:string,
+    client:string,
+) => {
     const saltRes = await api.get(`users/${username}/salt`);
     let salt_str:string = saltRes.data;
 
@@ -29,7 +33,7 @@ export const authUser = async (username:string, password_str:string) => {
         const auth = pcrypt.gen_auth(username, res);
         api.defaults.headers.common["Authorization"] = auth;
         var login = await api.post(
-            `/users/auth/full?domain=fh`
+            `/users/auth/full?domain=${client}`
         );
         api.defaults.headers.common["Authorization"] = pcrypt
             .to_base64(login.data.user.token);

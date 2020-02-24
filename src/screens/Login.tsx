@@ -1,23 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, FC } from 'react';
 import { View, StyleSheet,KeyboardAvoidingView, Image } from 'react-native';
-import { Button, Input, Text, Layout, useTheme } from "@ui-kitten/components";
+import { Button, Input, Text, Layout, Spinner, Modal } from "@ui-kitten/components";
 import { messages } from "../i18n";
 import { useMediaQuery } from "react-responsive";
 import { api, authUser } from "../api";
-import { UserContext } from "../hooks/auth";
 
 
-const loginSequence = async () => {
-    // const authed = await authUser(
-    //     'app+fheb@tickr.com',
-    //     'fhebTickr!'
-    // );
+const loginSequence = async (
+    username:string, 
+    password:string, 
+    client:string, 
+    setLoading:(val:boolean) => void
+) => {
 
-    // console.log('we got authed?', authed);
+    setLoading(true);
+    const authed = await authUser(
+        username,
+        password,
+        client
+    );
+    setLoading(false);
+
 }
 
+const LoadingSpinner = ({ loading }:{loading:boolean}) => {
+    if(loading) {
+        return (
+            <Modal visible={ true } backdropStyle={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
+                <Spinner size="large"/>
+            </Modal>
+        );
+    } 
+    return (<></>)
+}
 const Login = () => {
-    const msg = useContext(UserContext);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [client, setClient] = useState('fh');
+
+    const [loading, setLoading] = useState(false);
+
+    let test = 'test';
+
     return (
         <KeyboardAvoidingView style={{flex:1}} behavior="padding">
             <Layout style={{flex:1}}>
@@ -26,10 +50,22 @@ const Login = () => {
                         <Logo />
                     </View>
                     <View>
-                        <Input placeholder={ messages.email } textContentType="emailAddress" />
-                        <Input placeholder={ messages.password } textContentType="password" secureTextEntry={true} />
-                        <Button onPress={loginSequence} >{ messages.signIn }</Button>
-                        <Button appearance="ghost" onPress={() => console.log('user context', msg)} >{ messages.signUp }</Button>
+                        <LoadingSpinner loading={ loading }  />
+                        <Input 
+                            placeholder={ messages.email }
+                            textContentType="emailAddress" 
+                            value={ username }
+                            onChangeText={ text => setUsername(text)} 
+                        />
+                        <Input 
+                            placeholder={ messages.password } 
+                            textContentType="password" 
+                            secureTextEntry={true} 
+                            value={ password }
+                            onChangeText={ text => setPassword(text)}
+                        />
+                        <Button onPress={() => loginSequence(username, password, client, setLoading)} >{ messages.signIn }</Button>
+                        <Button appearance="ghost" >{ messages.signUp }</Button>
                     </View>
                 </View>
             </Layout>
@@ -46,15 +82,6 @@ const Logo = () => {
 
 export const LoginScreen = ({ navigation }) => {
     // navigation.push('Alerts');
-    const [apiWorks, setApiWorks] = React.useState('');
-    React.useEffect(() => {
-        const load = async () => {
-            const res = await api.get('/');
-            setApiWorks(res.data.msg);
-        }
-        load();
-    }, []);
-
     const isTablet = useMediaQuery({
         maxWidth:11270
     });
@@ -66,7 +93,6 @@ export const LoginScreen = ({ navigation }) => {
                     <Text category="h1" style={styles.title} >Empowering Agencies
                         and Brands</Text>
                     <Text category="h4"> Using Data to Achieve Transformational Results </Text>
-                    <Text category="p">{ apiWorks }</Text>
                 </Layout>
                 <View style={panesStyles.rightPane}>
                     <Login />
@@ -92,7 +118,7 @@ const panesStyles = StyleSheet.create({
     leftPane: {
         flexGrow:2,
         flex:1,
-        backgroundColor:'#dfded6',
+        // backgroundColor:'#dfded6',
         justifyContent:'center',
         alignItems:'center'
     },

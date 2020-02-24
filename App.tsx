@@ -6,7 +6,6 @@ import useLinking from "./src/navigation/linking";
 import { Routes } from "./src/navigation/routes";
 import { ApplicationProvider } from "@ui-kitten/components";
 import {light, dark, mapping} from "@eva-design/eva";
-import { GlobalContexts } from "./src/hooks";
 
 const Stack = createStackNavigator();
 
