@@ -6,6 +6,7 @@ import useLinking from "./src/navigation/linking";
 import { Routes } from "./src/navigation/routes";
 import { ApplicationProvider } from "@ui-kitten/components";
 import {light, dark, mapping} from "@eva-design/eva";
+import { GlobalContexts } from "./src/hooks";
 
 const Stack = createStackNavigator();
 
@@ -33,18 +34,18 @@ export default function App() {
     if(!isLoadingComplete)
         return null
     return (
-        <ApplicationProvider mapping={mapping} theme={dark}>
-        <View style={styles.container}>
-            <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-                <Stack.Navigator>
-                    <Stack.Screen 
-                        name="Root"
-                        component={Routes} 
-                        options={{headerShown:false}}/>
-                </Stack.Navigator>
-            </NavigationContainer>
-        </View>
-        </ApplicationProvider>
+            <ApplicationProvider mapping={mapping} theme={dark}>
+            <View style={styles.container}>
+                <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+                    <Stack.Navigator>
+                        <Stack.Screen 
+                            name="Root"
+                            component={Routes} 
+                            options={{headerShown:false}}/>
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </View>
+            </ApplicationProvider>
     );
 }
 

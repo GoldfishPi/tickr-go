@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet,KeyboardAvoidingView, Image } from 'react-native';
 import { Button, Input, Text, Layout, useTheme } from "@ui-kitten/components";
 import { messages } from "../i18n";
 import { useMediaQuery } from "react-responsive";
+import { api, authUser } from "../api";
+import { UserContext } from "../hooks/auth";
 
+
+const loginSequence = async () => {
+    // const authed = await authUser(
+    //     'app+fheb@tickr.com',
+    //     'fhebTickr!'
+    // );
+
+    // console.log('we got authed?', authed);
+}
 
 const Login = () => {
+    const msg = useContext(UserContext);
     return (
         <KeyboardAvoidingView style={{flex:1}} behavior="padding">
             <Layout style={{flex:1}}>
@@ -16,14 +28,15 @@ const Login = () => {
                     <View>
                         <Input placeholder={ messages.email } textContentType="emailAddress" />
                         <Input placeholder={ messages.password } textContentType="password" secureTextEntry={true} />
-                        <Button >{ messages.signIn }</Button>
-                        <Button appearance="ghost" >{ messages.signUp }</Button>
+                        <Button onPress={loginSequence} >{ messages.signIn }</Button>
+                        <Button appearance="ghost" onPress={() => console.log('user context', msg)} >{ messages.signUp }</Button>
                     </View>
                 </View>
             </Layout>
         </KeyboardAvoidingView>
     );
 }
+
 
 const Logo = () => {
     return (
@@ -32,7 +45,15 @@ const Logo = () => {
 }
 
 export const LoginScreen = ({ navigation }) => {
-    navigation.push('Alerts');
+    // navigation.push('Alerts');
+    const [apiWorks, setApiWorks] = React.useState('');
+    React.useEffect(() => {
+        const load = async () => {
+            const res = await api.get('/');
+            setApiWorks(res.data.msg);
+        }
+        load();
+    }, []);
 
     const isTablet = useMediaQuery({
         maxWidth:11270
@@ -45,6 +66,7 @@ export const LoginScreen = ({ navigation }) => {
                     <Text category="h1" style={styles.title} >Empowering Agencies
                         and Brands</Text>
                     <Text category="h4"> Using Data to Achieve Transformational Results </Text>
+                    <Text category="p">{ apiWorks }</Text>
                 </Layout>
                 <View style={panesStyles.rightPane}>
                     <Login />
