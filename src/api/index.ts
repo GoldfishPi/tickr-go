@@ -1,11 +1,13 @@
 import axios from 'axios';
 import sjcl from 'sjcl';
 import pcrypt from '../lib/pcrypt';
+import { Platform } from 'react-native';
 
-const devUrl = `http://localhost:3000`
+const devUrl = `http://localhost:3000`;
+const prodUrl = `https://apiqa.tickr.com`;
 
 export const api = axios.create({
-    baseURL:devUrl
+    baseURL:Platform.OS === 'web' ? devUrl : prodUrl
 });
 
 
@@ -40,6 +42,7 @@ export const authUser = async (
 
         return login;
     } catch (error) {
+        console.error(error);
         return false;
     }
     // this.$cookies.set('token', login.data.user.token);

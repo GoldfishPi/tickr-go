@@ -1,5 +1,7 @@
 
+import 'expo-crypto';
 import sjcl from 'sjcl';
+import {Buffer} from 'buffer';
 /**
  * Some very basic crypto wrappers
  */

@@ -13,14 +13,12 @@ const loginSequence = async (
     setLoading:(val:boolean) => void
 ) => {
 
-    setLoading(true);
     const authed = await authUser(
         username,
         password,
         client
     );
-    setLoading(false);
-
+    setLoading(true);
 }
 
 const LoadingSpinner = ({ loading }:{loading:boolean}) => {
@@ -33,7 +31,7 @@ const LoadingSpinner = ({ loading }:{loading:boolean}) => {
     } 
     return (<></>)
 }
-const Login = () => {
+const Login = ({ onLogin }:{onLogin:() => void}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [client, setClient] = useState('fh');
@@ -64,7 +62,13 @@ const Login = () => {
                             value={ password }
                             onChangeText={ text => setPassword(text)}
                         />
-                        <Button onPress={() => loginSequence(username, password, client, setLoading)} >{ messages.signIn }</Button>
+                        <Button onPress={() =>{ 
+                            setLoading(true);
+                            loginSequence(username, password, client, auth => {
+                                setLoading(false)
+                                if(auth)onLogin();
+                            })
+                        }} >{ messages.signIn }</Button>
                         <Button appearance="ghost" >{ messages.signUp }</Button>
                     </View>
                 </View>
@@ -86,6 +90,10 @@ export const LoginScreen = ({ navigation }) => {
         maxWidth:11270
     });
 
+    const onLogin = () => {
+        navigation.navigate('Alerts');
+    }
+
     if(isTablet) {
         return (
             <View style={panesStyles.panes}>
@@ -95,7 +103,7 @@ export const LoginScreen = ({ navigation }) => {
                     <Text category="h4"> Using Data to Achieve Transformational Results </Text>
                 </Layout>
                 <View style={panesStyles.rightPane}>
-                    <Login />
+                    <Login onLogin={ onLogin } />
                 </View>
 
             </View>
@@ -104,7 +112,7 @@ export const LoginScreen = ({ navigation }) => {
 
     return (
         <Layout style={{ flex:1}}>
-            <Login />
+            <Login onLogin={ onLogin } />
         </Layout>
     )
 }
