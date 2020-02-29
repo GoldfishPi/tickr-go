@@ -1,42 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/Login";
 import { View, StyleSheet } from "react-native";
 import {Platform} from "react-native";
-import { AlertsScreen } from '../screens/Alerts';
+import { UserContext } from "../hooks/user";
+import { HomeRoutes } from "./Home";
 
 const Stack = createStackNavigator();
 
-const Header = () => {
-    return Platform.OS === 'android' ?  
-        (<View style={ styles.header}></View>) :
-        (<View></View>)
-}
 
 export const Routes = () => {
+    const { user } = useContext(UserContext);
     return (
-        <View style={styles.container}>
-            <Header />
             <Stack.Navigator screenOptions={{headerShown:false}}>
-                <Stack.Screen 
-                    name="Login"
-                    component={LoginScreen}
+                { user === null ?
+                (
+                    <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                    />
+                )
+                    :
+                (
+                <Stack.Screen
+                    name="Home"
+                    component={HomeRoutes}
                 />
-                <Stack.Screen 
-                    name="Alerts"
-                    component={AlertsScreen}
-                />
+                )
+                }
             </Stack.Navigator>
-        </View>
-    )
+        )
 }
 
-const styles = StyleSheet.create({
-    header: {
-        height:35,
-        backgroundColor:'black',
-    },
-    container: {
-        flex:1,
-    }
-});

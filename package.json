@@ -15,6 +15,7 @@
     "@react-navigation/stack": "^5.0.6",
     "@types/react-responsive": "^8.0.2",
     "@ui-kitten/components": "^4.4.0",
+    "@ui-kitten/eva-icons": "^4.4.1",
     "axios": "^0.19.2",
     "bcrypt": "^4.0.0",
     "buffer": "^5.4.3",
@@ -31,10 +32,10 @@
     "react-native-safe-area-context": "0.6.0",
     "react-native-safe-area-view": "^1.0.0",
     "react-native-screens": "2.0.0-alpha.12",
-    "react-native-svg": "^11.0.1",
+    "react-native-svg": "9.13.3",
     "react-native-web": "~0.11.7",
     "react-responsive": "^8.0.3",
-    "sjcl": "file:../../sjcl"
+    "sjcl": "https://github.com/GoldfishPi/sjcl"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

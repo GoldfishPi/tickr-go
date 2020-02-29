@@ -1,24 +1,40 @@
-import React, { useContext, useState, FC } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet,KeyboardAvoidingView, Image } from 'react-native';
-import { Button, Input, Text, Layout, Spinner, Modal } from "@ui-kitten/components";
+import { 
+    Button, 
+    Input, 
+    Text, 
+    Layout, 
+    Spinner, 
+    Modal, 
+    Select,
+    SelectOption
+} from "@ui-kitten/components";
 import { messages } from "../i18n";
 import { useMediaQuery } from "react-responsive";
-import { api, authUser } from "../api";
+import { authUser } from "../api";
+import { UserContext } from "../hooks/user";
 
+const selectOptions:SelectOption = [
+    { text: 'spectrum' },
+    { text: 'fh' },
+];
 
 const loginSequence = async (
     username:string, 
     password:string, 
     client:string, 
-    setLoading:(val:boolean) => void
+    setLoading:(val:any) => void
 ) => {
+    console.log('got client lol', client);
 
     const authed = await authUser(
         username,
         password,
         client
     );
-    setLoading(true);
+    if(!authed)return setLoading(false);
+    setLoading(authed.data);
 }
 
 const LoadingSpinner = ({ loading }:{loading:boolean}) => {
@@ -34,11 +50,10 @@ const LoadingSpinner = ({ loading }:{loading:boolean}) => {
 const Login = ({ onLogin }:{onLogin:() => void}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [client, setClient] = useState('fh');
+    const [client, setClient] = useState('spectrum');
 
+    const { setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
-
-    let test = 'test';
 
     return (
         <KeyboardAvoidingView style={{flex:1}} behavior="padding">
@@ -66,7 +81,10 @@ const Login = ({ onLogin }:{onLogin:() => void}) => {
                             setLoading(true);
                             loginSequence(username, password, client, auth => {
                                 setLoading(false)
-                                if(auth)onLogin();
+                                if(auth) {
+                                    setUser(auth);
+                                    onLogin();
+                                }
                             })
                         }} >{ messages.signIn }</Button>
                         <Button appearance="ghost" >{ messages.signUp }</Button>

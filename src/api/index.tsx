@@ -1,7 +1,9 @@
 import axios from 'axios';
 import sjcl from 'sjcl';
 import pcrypt from '../lib/pcrypt';
-import { Platform } from 'react-native';
+import { Platform, AsyncStorage } from 'react-native';
+import React, { FC, useEffect, useState } from 'react';
+import { Spinner, Layout } from '@ui-kitten/components';
 
 const devUrl = `http://localhost:3000`;
 const prodUrl = `https://apiqa.tickr.com`;
@@ -40,6 +42,9 @@ export const authUser = async (
         api.defaults.headers.common["Authorization"] = pcrypt
             .to_base64(login.data.user.token);
 
+        AsyncStorage.setItem('token', login.data.user.token);
+        AsyncStorage.setItem('client', client); 
+
         return login;
     } catch (error) {
         console.error(error);
@@ -47,3 +52,24 @@ export const authUser = async (
     }
     // this.$cookies.set('token', login.data.user.token);
 }
+
+export const authCookie = async (
+
+) => {
+
+    const [token, client] = await Promise.all([
+        AsyncStorage.getItem('token'),
+        AsyncStorage.getItem('client')
+    ]);
+
+    if(!token || !client)return false;
+
+    try {
+        api.defaults.headers.common["Authorization"] = pcrypt.gen_auth(token);
+        const login = await api.post(`/users/auth/full?token=1&domain=${client}`,);
+        return login.data;
+    } catch(e) {
+        return false;
+    }
+}
+

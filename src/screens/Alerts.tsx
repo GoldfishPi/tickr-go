@@ -1,33 +1,50 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native"
-import { Text, Layout, Card, CardHeader, List, ListItem, TabBar, TopNavigation } from "@ui-kitten/components"
+import { 
+    Text, 
+    Layout, 
+    List, 
+    ListItem, 
+    Icon
+} from "@ui-kitten/components"
+import { UserContext } from "../hooks/user";
+import { authCookie } from "../api";
+import { fetchAlerts } from "../api/alerts";
 
 const renderItem = ({ item, index}) => (
     <ListItem 
         onPress={() => {
             console.log(`${index} pressed`)
         }}
-        title={ `${item.title} ${index+1}`} 
+        icon={ item.is_triggered ? styles => (<Icon {...styles} name="alert-circle" fill="red" />) : null }
+        title={ item.name } 
     />
 );
 export const AlertsScreen = () => {
-    const data = new Array(8).fill({
-        title:'Alert'
-    });
-    const activeHeader = () => (
-        <CardHeader title="Active Alerts"/>
-        );
-    const enabledHeader = () => (
-        <CardHeader title="Enabled Alerts"/>
-        );
-    return (
+    const { user } = useContext(UserContext);
+    const [ alerts, setAlerts ] = useState();
+
+    useEffect(() => {
+        (async () => {
+            const alerts:any[] = await fetchAlerts(user);
+            const active = alerts.filter(a => a.is_triggered);
+            const inactive = alerts.filter(a => !a.is_triggered);
+            console.log('got alerts lol', alerts);
+            setAlerts([
+                ...active,
+                ...inactive
+            ]);
+        })();
+    }, []);
+
+    return (<>
         <Layout style={{flex:1}}>
             <List
-                data={data}
+                data={alerts}
                 renderItem={renderItem}
             />
         </Layout>
-    )
+    </>)
 }
 
 const styles = StyleSheet.create({
