@@ -1,5 +1,5 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { useState, useEffect, useContext } from 'react';
+import { createDrawerNavigator, useIsDrawerOpen } from '@react-navigation/drawer';
 import { AlertsScreen } from "../../screens/Alerts";
 import { Platform, View, StyleSheet } from "react-native";
 import { 
@@ -7,9 +7,10 @@ import {
     TopNavigationAction,
     Icon,
     Text,
+    Drawer,
 } from '@ui-kitten/components';
 
-const Stack = createStackNavigator();
+const DrawerNav = createDrawerNavigator();
 
 const ScreenSpacer = () => {
     return Platform.OS === 'android' ?  
@@ -17,29 +18,59 @@ const ScreenSpacer = () => {
         (<View></View>)
 }
 
-const LeftAction = () => (
+const LeftAction = ({ onPress }) => (
     <TopNavigationAction
         icon={style => (<Icon {...style} name="menu-outline" />)}
+        onPress={ onPress }
     />
 )
-const Header = ({ scene }:any) => {
+const Header = ({ onPress }) => {
     return (<TopNavigation 
-        title={scene.route.name} 
-        leftControl={ LeftAction() }
+        leftControl={ LeftAction({ onPress }) }
         alignment="center"
     />);
 
 }
 
+const DrawerContent = ({ navigation, state, open }) => {
+
+    const [ init, setInit ] = useState(false);
+
+    useEffect(() => {
+        if(init)
+            navigation.toggleDrawer();
+        else
+            setInit(true);
+    }, [open]);
+
+    const onSelect = (index:number) => {
+        navigation.navigate(state.routeNames[index]);
+    };
+    return (
+        <Drawer
+            data={state.routeNames.map((r:string) => ({ title:r }))}
+            selectedIndex={state.index}
+            onSelect={onSelect}
+        />
+    );
+}
+
 export const HomeRoutes = () => {
+
+    const [ openToggle, toggleOpen ] = useState(false);
+
     return (<>
     <ScreenSpacer />
-    <Stack.Navigator screenOptions={{header:Header}}>
-        <Stack.Screen 
+    <Header onPress={() => toggleOpen(!openToggle)} />
+    <DrawerNav.Navigator 
+        drawerContent={props => (<DrawerContent {...props} open={openToggle} />)} 
+        open={ true} 
+    >
+        <DrawerNav.Screen 
             name="Alerts" 
             component={AlertsScreen}
         />
-    </Stack.Navigator>
+    </DrawerNav.Navigator>
 </>);
 }
 const styles = StyleSheet.create({

@@ -1128,6 +1128,14 @@
     shortid "^2.2.15"
     use-subscription "^1.3.0"
 
+"@react-navigation/drawer@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@react-navigation/drawer/-/drawer-5.1.0.tgz#b96b6437bd31ede317bc816d87fd3756d9022807"
+  integrity sha512-MDykenGZDun0psuiW+kpLNDXl6uOTlVnP4yaLTVyIwlMiUlXM/d/5aP30mAGD0weWzwEdvwCfLlFOCJrx2eI+g==
+  dependencies:
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.2.1"
+
 "@react-navigation/native@^5.0.6":
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.0.6.tgz#050d6c212b9d59a2d9af5ba7f26857657d7b398f"
@@ -1279,6 +1287,13 @@
     fecha "3.0.3"
     hoist-non-react-statics "^3.2.1"
     lodash.merge "^4.6.1"
+
+"@ui-kitten/eva-icons@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@ui-kitten/eva-icons/-/eva-icons-4.4.1.tgz#a71b9415889510321d4c422174107af98b8becf9"
+  integrity sha512-G730KOgSuUuTTuxuTg6ChcUJZxQ0zX2XKlonAgDwtJiBTDj+zrofr2IJ0ZURHkHgasJwZ1o8S+RxZ+5wH7LGKw==
+  dependencies:
+    react-native-eva-icons "1.1.0"
 
 "@unimodules/core@~5.0.0":
   version "5.0.0"
@@ -4698,6 +4713,11 @@ react-native-device-info@^5.5.3:
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.3.tgz#6652fb46c4602a1dd3a5d6a18d2266ecdf97fec7"
   integrity sha512-bzUVTPHca+FfNco1qaOM1+idoeII8zdpGRsR+RK+DWhwp9utHZWfbkonZZ9XFm/U+i3mirNxt6oaKV+vUMjMzg==
+
+react-native-eva-icons@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-eva-icons/-/react-native-eva-icons-1.1.0.tgz#323e55d759187edc216d049e7c0012a27383e0ed"
+  integrity sha512-0k6sbiKoHxmmbCgAZTHj6llcdcwtbyZJ1E2AK0my7QU0WRaWwqWMep5AUlMbrIiuYE9mkMZiabEXYcfn3ir2PA==
 
 react-native-gesture-handler@~1.5.0:
   version "1.5.6"
