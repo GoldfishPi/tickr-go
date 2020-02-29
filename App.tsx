@@ -6,11 +6,12 @@ import useLinking from "./src/navigation/linking";
 import { Routes } from "./src/navigation/routes";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import {EvaIconsPack} from "@ui-kitten/eva-icons";
-import { dark, mapping } from "@eva-design/eva";
+import { light, dark, mapping } from "@eva-design/eva";
 import { GlobalContexts } from "./src/hooks";
 import { SplashScreen } from 'expo';
 import { authCookie } from "./src/api";
 import { UserContext } from "./src/hooks/user";
+import { ThemeContext } from "./src/hooks/theme";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ function Providers() {
     const [isLoadingComplete, setLoadingComplete] = React.useState(false);
     const [initialNavigationState, setInitialNavigationState] = React.useState();
     const { setUser } = useContext(UserContext);
+    const { theme } = useContext(ThemeContext);
     const containerRef = React.useRef();
     const { getInitialState } = useLinking(containerRef);
 
@@ -55,7 +57,7 @@ function Providers() {
 
     return (<React.Fragment>
         <IconRegistry icons={EvaIconsPack} />
-        <ApplicationProvider mapping={mapping} theme={dark}>
+        <ApplicationProvider mapping={mapping} theme={theme === 'dark' ? dark : light}>
             <View style={styles.container}>
                 
                 <NavigationContainer 
