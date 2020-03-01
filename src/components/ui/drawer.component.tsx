@@ -13,6 +13,7 @@ import {
 import { View } from "react-native";
 import { lang } from "../../i18n";
 import { ThemeContext } from "../../providers/ThemeProvider";
+import { UserContext } from "../../providers/UserProvider";
 
 interface props {
     navigation:any;
@@ -26,7 +27,7 @@ export const DrawerComponent:FC<props> = ({
 }) => {
 
     const [ init, setInit ] = useState(false);
-
+    const { logout } = useContext(UserContext);
 
     useEffect(() => {
         if(init)
@@ -46,7 +47,7 @@ export const DrawerComponent:FC<props> = ({
             selectedIndex={state.index}
             onSelect={onSelect}
             header={DrawerHeader()}
-            footer={DrawerFooter}
+            footer={DrawerFooter(logout)}
         />
     );
 }
@@ -70,12 +71,15 @@ const DrawerHeader = () => {
     />)
 }
 
-const DrawerFooter = () => {
-    return (
+const DrawerFooter = (logout:any) => {
+    return () => (
         <DrawerHeaderFooter
+            onPress={ logout }
             accessory={(style) => (
                 <View {...style}>
-                    <Text>{ lang.logout }</Text>
+                    <Text >
+                        { lang.logout }
+                    </Text>
                 </View>
             )}
         />

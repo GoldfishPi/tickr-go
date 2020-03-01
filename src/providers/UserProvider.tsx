@@ -33,7 +33,7 @@ export const UserProvider:React.FC = ({ children }) => {
                     if(user)setUser(user);
                 },
                 logout() {
-
+                    AsyncStorage.removeItem('token');
                     setUser(null);
                 }
             }}>

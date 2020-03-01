@@ -14,11 +14,6 @@ import { lang } from "../i18n";
 import { useMediaQuery } from "react-responsive";
 import { UserContext } from "../providers/UserProvider";
 
-const selectOptions:SelectOption = [
-    { text: 'spectrum' },
-    { text: 'fh' },
-];
-
 const LoadingSpinner = ({ loading }:{loading:boolean}) => {
     if(loading) {
         return (
@@ -29,18 +24,13 @@ const LoadingSpinner = ({ loading }:{loading:boolean}) => {
     } 
     return (<></>)
 }
-const Login = ({ onLogin }:{onLogin:() => void}) => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [client ] = useState('spectrum');
     const [loading, setLoading] = useState(false);
 
     const { user, login } = useContext(UserContext);
-
-    React.useEffect(() => {
-        if(user)onLogin();
-    }, [ user ]);
-
 
     return (
         <KeyboardAvoidingView style={{flex:1}} behavior="padding">
@@ -84,35 +74,30 @@ const Logo = () => {
         );
 }
 
-export const LoginScreen = ({ navigation }) => {
+export const LoginScreen = () => {
     // navigation.push('Alerts');
     const isTablet = useMediaQuery({
         maxWidth:11270
     });
 
-    const onLogin = () => {
-        navigation.navigate('Alerts');
-    }
-
-    if(isTablet) {
-        return (
-            <View style={panesStyles.panes}>
-                <Layout style={panesStyles.leftPane}>
-                    <Text category="h1" style={styles.title} >Empowering Agencies
-                        and Brands</Text>
-                    <Text category="h4"> Using Data to Achieve Transformational Results </Text>
-                </Layout>
-                <View style={panesStyles.rightPane}>
-                    <Login onLogin={ onLogin } />
-                </View>
-
-            </View>
-        );
-    }
+    // if(isTablet) {
+    //     return (
+    //         <View style={panesStyles.panes}>
+    //             <Layout style={panesStyles.leftPane}>
+    //                 <Text category="h1" style={styles.title} >Empowering Agencies
+    //                     and Brands</Text>
+    //                 <Text category="h4"> Using Data to Achieve Transformational Results </Text>
+    //             </Layout>
+    //             <View style={panesStyles.rightPane}>
+    //                 <Login />
+    //             </View>
+    //         </View>
+    //     );
+    // }
 
     return (
         <Layout style={{ flex:1}}>
-            <Login onLogin={ onLogin } />
+            <Login />
         </Layout>
     )
 }
