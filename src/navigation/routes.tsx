@@ -3,8 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/Login";
 import { View, StyleSheet } from "react-native";
 import {Platform} from "react-native";
-import { UserContext } from "../hooks/user";
 import { HomeRoutes } from "./Home";
+import { UserContext } from "../providers/UserProvider";
 
 const Stack = createStackNavigator();
 

@@ -7,26 +7,25 @@ import { Routes } from "./src/navigation/routes";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import {EvaIconsPack} from "@ui-kitten/eva-icons";
 import { light, dark, mapping } from "@eva-design/eva";
-import { GlobalContexts } from "./src/hooks";
 import { SplashScreen } from 'expo';
-import { authCookie } from "./src/api";
-import { UserContext } from "./src/hooks/user";
-import { ThemeContext } from "./src/hooks/theme";
+import { Providers } from "./src/providers";
+import { ThemeContext } from "./src/providers/ThemeProvider";
+import { UserContext } from "./src/providers/UserProvider";
 
 const Stack = createStackNavigator();
 
 export default function App() {
     return (
-        <GlobalContexts>
-            <Providers />
-        </GlobalContexts>
+        <Providers>
+            <AppContent />
+        </Providers>
     );
 }
 
-function Providers() {
+function AppContent() {
     const [isLoadingComplete, setLoadingComplete] = React.useState(false);
     const [initialNavigationState, setInitialNavigationState] = React.useState();
-    const { setUser } = useContext(UserContext);
+    const { loginToken } = useContext(UserContext);
     const { theme } = useContext(ThemeContext);
     const containerRef = React.useRef();
     const { getInitialState } = useLinking(containerRef);
@@ -39,8 +38,7 @@ function Providers() {
                 // Load our initial navigation state
                 setInitialNavigationState(await getInitialState());
 
-                const user = await authCookie();
-                if(user)setUser(user);
+                await loginToken();
 
             } catch(e) {
                 console.warn(e)

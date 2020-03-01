@@ -12,30 +12,12 @@ import {
 } from "@ui-kitten/components";
 import { lang } from "../i18n";
 import { useMediaQuery } from "react-responsive";
-import { authUser } from "../api";
-import { UserContext } from "../hooks/user";
+import { UserContext } from "../providers/UserProvider";
 
 const selectOptions:SelectOption = [
     { text: 'spectrum' },
     { text: 'fh' },
 ];
-
-const loginSequence = async (
-    username:string, 
-    password:string, 
-    client:string, 
-    setLoading:(val:any) => void
-) => {
-    console.log('got client lol', client);
-
-    const authed = await authUser(
-        username,
-        password,
-        client
-    );
-    if(!authed)return setLoading(false);
-    setLoading(authed.data);
-}
 
 const LoadingSpinner = ({ loading }:{loading:boolean}) => {
     if(loading) {
@@ -50,10 +32,15 @@ const LoadingSpinner = ({ loading }:{loading:boolean}) => {
 const Login = ({ onLogin }:{onLogin:() => void}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [client, setClient] = useState('spectrum');
-
-    const { setUser } = useContext(UserContext);
+    const [client ] = useState('spectrum');
     const [loading, setLoading] = useState(false);
+
+    const { user, login } = useContext(UserContext);
+
+    React.useEffect(() => {
+        if(user)onLogin();
+    }, [ user ]);
+
 
     return (
         <KeyboardAvoidingView style={{flex:1}} behavior="padding">
@@ -77,15 +64,10 @@ const Login = ({ onLogin }:{onLogin:() => void}) => {
                             value={ password }
                             onChangeText={ text => setPassword(text)}
                         />
-                        <Button onPress={() =>{ 
+                        <Button onPress={async () =>{ 
                             setLoading(true);
-                            loginSequence(username, password, client, auth => {
-                                setLoading(false)
-                                if(auth) {
-                                    setUser(auth);
-                                    onLogin();
-                                }
-                            })
+                            await login(username, password, client);
+                            setLoading(false);
                         }} >{ lang.signIn }</Button>
                         <Button appearance="ghost" >{ lang.signUp }</Button>
                     </View>

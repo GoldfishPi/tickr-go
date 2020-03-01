@@ -10,9 +10,9 @@ import {
     Toggle,
     Text
 } from '@ui-kitten/components';
-import { ThemeContext } from "../../hooks/theme";
 import { View } from "react-native";
 import { lang } from "../../i18n";
+import { ThemeContext } from "../../providers/ThemeProvider";
 
 interface props {
     navigation:any;
