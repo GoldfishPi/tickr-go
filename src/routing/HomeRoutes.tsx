@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Platform, View, StyleSheet } from "react-native";
-import { DrawerComponent } from "../../components/ui/drawer.component";
-import { HeaderComponent } from "../../components/ui/header.component";
-import { AlertsScreen } from "../../screens/Alerts";
-import { DashboardScreen } from '../../screens/Dashboard';
+import { HeaderComponent } from "../components/ui/header.component";
+import { DrawerComponent } from "../components/ui/drawer.component";
+import { AlertsScreen } from "../screens/Alerts";
+import { DashboardScreen } from "../screens/Dashboard";
 
 const DrawerNav = createDrawerNavigator();
 

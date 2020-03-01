@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/Login";
-import { HomeRoutes } from "./Home";
 import { UserContext } from "../providers/UserProvider";
+import { HomeRoutes } from "./HomeRoutes";
 
 const Stack = createStackNavigator();
 
 
-export const Routes = () => {
+export const AuthRoutes = () => {
     const { user } = useContext(UserContext);
     return (
             <Stack.Navigator screenOptions={{headerShown:false}}>

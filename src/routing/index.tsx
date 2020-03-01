@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext } from "../providers/UserProvider";
 import useLinking from './linking';
 import { SplashScreen } from 'expo';
-import { Routes } from './routes';
+import { AuthRoutes } from "./AuthRoutes";
 
 const Stack = createStackNavigator();
 export function Routing() {
@@ -39,7 +39,7 @@ export function Routing() {
                 <Stack.Navigator>
                     <Stack.Screen 
                         name="Root"
-                        component={Routes} 
+                        component={AuthRoutes} 
                         options={{headerShown:false}}/>
                 </Stack.Navigator>
             </NavigationContainer>
