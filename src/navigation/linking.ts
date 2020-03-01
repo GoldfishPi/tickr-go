@@ -11,10 +11,10 @@ export default function(containerRef:any) {
                 screens: {
                     Login: 'login',
                     Home: {
-                        initialRouteName:'home',
                         path:'home',
                         screens: {
                             Alerts: 'alerts',
+                            Dashboard:'dashboard',
                         }
                     },
                 },

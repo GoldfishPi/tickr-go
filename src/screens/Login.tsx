@@ -10,7 +10,7 @@ import {
     Select,
     SelectOption
 } from "@ui-kitten/components";
-import { messages } from "../i18n";
+import { lang } from "../i18n";
 import { useMediaQuery } from "react-responsive";
 import { authUser } from "../api";
 import { UserContext } from "../hooks/user";
@@ -65,13 +65,13 @@ const Login = ({ onLogin }:{onLogin:() => void}) => {
                     <View>
                         <LoadingSpinner loading={ loading }  />
                         <Input 
-                            placeholder={ messages.email }
+                            placeholder={ lang.email }
                             textContentType="emailAddress" 
                             value={ username }
                             onChangeText={ text => setUsername(text)} 
                         />
                         <Input 
-                            placeholder={ messages.password } 
+                            placeholder={ lang.password } 
                             textContentType="password" 
                             secureTextEntry={true} 
                             value={ password }
@@ -86,8 +86,8 @@ const Login = ({ onLogin }:{onLogin:() => void}) => {
                                     onLogin();
                                 }
                             })
-                        }} >{ messages.signIn }</Button>
-                        <Button appearance="ghost" >{ messages.signUp }</Button>
+                        }} >{ lang.signIn }</Button>
+                        <Button appearance="ghost" >{ lang.signUp }</Button>
                     </View>
                 </View>
             </Layout>

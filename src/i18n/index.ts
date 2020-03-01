@@ -8,5 +8,5 @@ const languages = {
     default:en
 }
 
-export const messages = new I18nResolver(languages, locale).translation
+export const lang = new I18nResolver(languages, locale).translation
 

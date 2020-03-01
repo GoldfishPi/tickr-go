@@ -7,9 +7,12 @@ import React, {
 import {
     Drawer,
     DrawerHeaderFooter,
-    Toggle
+    Toggle,
+    Text
 } from '@ui-kitten/components';
 import { ThemeContext } from "../../hooks/theme";
+import { View } from "react-native";
+import { lang } from "../../i18n";
 
 interface props {
     navigation:any;
@@ -24,7 +27,6 @@ export const DrawerComponent:FC<props> = ({
 
     const [ init, setInit ] = useState(false);
 
-    const { theme, setTheme } = useContext(ThemeContext);
 
     useEffect(() => {
         if(init)
@@ -37,25 +39,45 @@ export const DrawerComponent:FC<props> = ({
         navigation.navigate(state.routeNames[index]);
     };
 
-    const onChangeTheme = (bool:boolean) => {
-        if(bool) setTheme('dark')
-        else setTheme('light');
-    }
 
     return (
         <Drawer
             data={state.routeNames.map((r:string) => ({ title:r }))}
             selectedIndex={state.index}
             onSelect={onSelect}
-            header={() => (<DrawerHeaderFooter
-                title="Dark Theme"
-                accessory={(style) => (
-                    <Toggle 
-                        checked={theme === 'dark'} 
-                        onChange={onChangeTheme}/>
-                )}
-            />)}
+            header={DrawerHeader()}
+            footer={DrawerFooter}
         />
     );
 }
 
+const DrawerHeader = () => {
+    
+    const { theme, setTheme } = useContext(ThemeContext);
+    const onChangeTheme = (bool:boolean) => {
+        if(bool) setTheme('dark')
+        else setTheme('light');
+    }
+    return () => (<DrawerHeaderFooter
+        title="Dark Theme"
+        accessory={(style) => (
+            <Toggle 
+                {...style}
+                checked={theme === 'dark'} 
+                onChange={onChangeTheme}
+            />
+        )}
+    />)
+}
+
+const DrawerFooter = () => {
+    return (
+        <DrawerHeaderFooter
+            accessory={(style) => (
+                <View {...style}>
+                    <Text>{ lang.logout }</Text>
+                </View>
+            )}
+        />
+    );
+}
