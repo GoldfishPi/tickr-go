@@ -7,9 +7,8 @@ import {
     ListItem, 
     Icon
 } from "@ui-kitten/components"
-import { UserContext } from "../hooks/user";
-import { authCookie } from "../api";
 import { fetchAlerts } from "../api/alerts";
+import { UserContext } from "../providers/UserProvider";
 
 const renderItem = ({ item, index}) => (
     <ListItem 
