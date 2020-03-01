@@ -51,7 +51,7 @@ function AppContent() {
     }, []);
 
     if(!isLoadingComplete)
-        return (<View><Text>Loading lololol</Text></View>); 
+        return null;
 
     return (<React.Fragment>
         <IconRegistry icons={EvaIconsPack} />
